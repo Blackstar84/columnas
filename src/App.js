@@ -1,25 +1,83 @@
-import logo from './logo.svg';
-import './App.css';
+/* import React from "react";
+import Column from "./Column";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ display: "flex" }}>
+      <Column />
+      <Column />
+      <Column />
     </div>
   );
-}
+};
+
+export default App;
+ */
+
+import React, { useState } from 'react';
+import { SketchPicker } from 'react-color';
+
+const Column = () => {
+  const [inputValue, setInputValue] = useState('');
+  const [color, setColor] = useState('#ffffff');
+  const [items, setItems] = useState([]);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleColorChange = (color) => {
+    setColor(color.hex);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setItems([...items, { value: inputValue, color }]);
+      setInputValue('');
+    }
+  };
+
+  const handleEdit = (index, newValue) => {
+    const newItems = [...items];
+    newItems[index].value = newValue;
+    setItems(newItems);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+      />
+      <SketchPicker color={color} onChange={handleColorChange} />
+
+      {items.map((item, index) => (
+        <div key={index} style={{ backgroundColor: item.color }}>
+          <input
+            type="text"
+            value={item.value}
+            onChange={(e) => handleEdit(index, e.target.value)}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const App = () => (
+  <div
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gridGap: 20,
+    }}
+  >
+    <Column />
+    <Column />
+    <Column />
+  </div>
+);
 
 export default App;
