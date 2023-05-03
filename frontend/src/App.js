@@ -44,7 +44,7 @@ const Column = () => {
   };
 
   return (
-    <div>
+    <div className='col'>
       <input
         type="text"
         value={inputValue}
@@ -67,17 +67,13 @@ const Column = () => {
 };
 
 const App = () => (
-  <div
-    style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gridGap: 20,
-    }}
-  >
-    <Column />
-    <Column />
-    <Column />
-  </div>
+    <div className='container'>
+      <div className="row align-items-start">
+        <Column />
+        <Column />
+        <Column />
+      </div>
+    </div>
 );
 
 export default App;
