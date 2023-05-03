@@ -81,6 +81,31 @@ export default App;
 
 
 
+/* function App() {
+  const [firstName, setFirstName] = useState('');
+  const [companyRole, setCompanyRole] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:4000/insert', {
+      firstName,
+      companyRole
+    }).then(() => alert('Data sent to server!')).catch((error) => console.log(error));
+  };
+  return (
+    <div>
+      <h1>React MongoDB Form</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="First Name" onChange={(e) => setFirstName(e.target.value)} />
+        <input type="text" placeholder="Company Role" onChange={(e) => setCompanyRole(e.target.value)} />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  );
+} */
+
+
+
+
 
 
 /* 
