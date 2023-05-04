@@ -26,6 +26,7 @@ const Column = (props) => {
       axios.post('http://localhost:5000/createPost', {
         title, category, color
     }).then(() => alert('Data sent to server!')).catch((error) => console.log(error));
+    setTitle('');
     }
   };
 
@@ -59,7 +60,7 @@ useEffect(() => {
   getTodos('wentWell');
   getTodos('toImprove');
   getTodos('kudos');
-}, [])
+})
   
 
   const handleEdit = (index, newValue) => {
