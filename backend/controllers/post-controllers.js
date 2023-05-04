@@ -7,12 +7,40 @@ const Post = require('../models/post');
 
 
 const getPosts = async (req, res, next) => {
-  const category = req.params.category;
-  const categories = category ? { category } : {};
+  
+  const {categoria} = req.query;
+
+  let place;
+  try {
+    place = await Post.find({ categoria });
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong, could not find a place.',
+      500
+    );
+    return next(error);
+  }
+
+  if (!place) {
+    const error = new HttpError(
+      'Could not find a place for the provided id.',
+      404
+    );
+    return next(error);
+  }
+
+  res.json({ post: post.toObject({ getters: true }) }); // => { place } => { place: place }
+};
+
+
+
+/* const getPosts = async (req, res, next) => {
+ const category = req.params.category;
+  const categories = category ? { category } : {}; 
 
   let post;
   try {
-    post = await Post.find({category : categories}).populate('title');
+    post = await Post.find();
 
   } catch (err) {
     const error = new HttpError(
@@ -29,7 +57,7 @@ const getPosts = async (req, res, next) => {
   }
   res.json({ post: post.posts.map(post => post.toObject({ getters: true })) });
   
-};
+}; */
 
 
 

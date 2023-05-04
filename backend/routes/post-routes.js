@@ -1,11 +1,24 @@
 const express = require('express');
 const { check } = require('express-validator');
+const Post = require('../models/post');
 
 const postControllers = require('../controllers/post-controllers');
 
 const router = express.Router();
 
 router.get('/posts', async (req, res) => {
+  const { category } = req.query;
+  let users;
+  try {
+    users = await Post.find({ category });
+    console.log(users);
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener usuarios' });
+  }
+});
+
+/* router.get('/posts', async (req, res) => {
   try {
     const category = req.query.category
     const response = await postControllers.getPosts(category)
@@ -14,7 +27,7 @@ router.get('/posts', async (req, res) => {
     console.log(err)
     throw new Error(err)
   }
-})
+}) */
 
 
 router.post(

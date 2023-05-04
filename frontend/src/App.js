@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SketchPicker } from 'react-color';
 import axios from 'axios';
 
@@ -29,6 +29,39 @@ const Column = (props) => {
     }
   };
 
+  const [wentWell, setWell] = useState([]);
+  const [toImprove, setImprove] = useState([]);
+  const [kudos, setKudos] = useState([]);
+let categoria = '';
+const getTodos = (categoria) => {
+  axios.get(`http://localhost:5000/posts?category=${categoria}`)
+    .then(res => {
+      console.log(res);
+      switch (categoria) {
+        case 'wentWell':
+          setWell(res.data)    
+          break;
+        case 'toImprove':
+          setImprove(res.data)
+          break;
+        case 'kudos':
+          setKudos(res.data)
+          break;   
+      }
+      
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+
+useEffect(() => {
+  getTodos('wentWell');
+  getTodos('toImprove');
+  getTodos('kudos');
+}, [])
+  
+
   const handleEdit = (index, newValue) => {
     const newItems = [...items];
     newItems[index].value = newValue;
@@ -45,14 +78,25 @@ const Column = (props) => {
       />
       <SketchPicker color={color} onChange={handleColorChange} />
 
-      {items.map((item, index) => (
+      {
+      /* {wentWell.map((item, index) => (
         <div key={index} style={{ backgroundColor: item.color }}>
           <input
             type="text"
             value={item.value}
-            onChange={(e) => handleEdit(index, e.target.value)}
+            onChange={(e) => handleEdit(e.key,index, e.target.value)}
           />
         </div>
+      ))} */}
+      {wentWell.length > 0 && wentWell.map((item, index) => (
+            <div key={index} style={{ backgroundColor: item.color }}>
+              <input
+                type="text"
+                value={item.title}
+                onChange={(e) => handleEdit(e.key,index, e.target.value)}
+              />
+            </div>
+        
       ))}
     </div>
   );
@@ -63,7 +107,7 @@ const App = () => (
       <div className="row align-items-start">
         <Column cat='wentWell' />
         <Column cat='toImprove' />
-        <Column cat='Kudos' />
+        <Column cat='kudos' />
       </div>
     </div>
 );
