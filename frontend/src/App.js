@@ -1,19 +1,3 @@
-/* import React from "react";
-import Column from "./Column";
-
-const App = () => {
-  return (
-    <div style={{ display: "flex" }}>
-      <Column />
-      <Column />
-      <Column />
-    </div>
-  );
-};
-
-export default App;
- */
-
 import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
 
