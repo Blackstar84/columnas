@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
+import axios from 'axios';
 
 const Column = () => {
   const [inputValue, setInputValue] = useState('');
@@ -18,6 +19,10 @@ const Column = () => {
     if (e.key === 'Enter') {
       setItems([...items, { value: inputValue, color }]);
       setInputValue('');
+      axios.post('http://localhost:4000/insert', {
+      firstName,
+      companyRole
+    }).then(() => alert('Data sent to server!')).catch((error) => console.log(error));
     }
   };
 
