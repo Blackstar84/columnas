@@ -12,7 +12,7 @@ const getPosts = async (req, res, next) => {
 
   let post;
   try {
-    post = await Post.find(categories).populate('title');
+    post = await Post.find({category : categories}).populate('title');
 
   } catch (err) {
     const error = new HttpError(

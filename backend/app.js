@@ -35,7 +35,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-.connect('mongodb://localhost:27017/mern')
+.connect('mongodb://localhost:27017/retro-activity')
 .then(()=>{
   app.listen(5000);
 })

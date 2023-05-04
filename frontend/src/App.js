@@ -2,26 +2,29 @@ import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
 import axios from 'axios';
 
-const Column = () => {
-  const [inputValue, setInputValue] = useState('');
+const Column = (props) => {
+  const [title, setTitle] = useState('');
+  const category = props.cat;
   const [color, setColor] = useState('#ffffff');
   const [items, setItems] = useState([]);
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    setTitle(e.target.value);
   };
 
   const handleColorChange = (color) => {
     setColor(color.hex);
   };
+  
+  
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      setItems([...items, { value: inputValue, color }]);
-      setInputValue('');
-      axios.post('http://localhost:4000/insert', {
-      firstName,
-      companyRole
+      console.log(title, category, color);
+      setItems([...items, { value: title, color }]);
+      
+      axios.post('http://localhost:5000/createPost', {
+        title, category, color
     }).then(() => alert('Data sent to server!')).catch((error) => console.log(error));
     }
   };
@@ -36,7 +39,7 @@ const Column = () => {
     <div className='col'>
       <input
         type="text"
-        value={inputValue}
+        value={title}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
@@ -58,9 +61,9 @@ const Column = () => {
 const App = () => (
     <div className='container'>
       <div className="row align-items-start">
-        <Column />
-        <Column />
-        <Column />
+        <Column cat='wentWell' />
+        <Column cat='toImprove' />
+        <Column cat='Kudos' />
       </div>
     </div>
 );
