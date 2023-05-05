@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { SketchPicker } from 'react-color';
 import axios from 'axios';
+import Post from './components/Post';
+//import Column  from './components/Column';
 
 const Column = (props) => {
   const [title, setTitle] = useState('');
   const category = props.cat;
   const [color, setColor] = useState('#ffffff');
   const [items, setItems] = useState([]);
+  const [update, setUpdate] = useState(false);
 
   const handleInputChange = (e) => {
     setTitle(e.target.value);
@@ -25,42 +28,46 @@ const Column = (props) => {
       
       axios.post('http://localhost:5000/createPost', {
         title, category, color
-    }).then(() => alert('Data sent to server!')).catch((error) => console.log(error));
+    }).then(() => alert('Datos guardados!')).catch((error) => console.log(error));
     setTitle('');
+    setUpdate(true);  
     }
   };
 
-  const [wentWell, setWell] = useState([]);
+  /* const [wentWell, setWell] = useState([]);
   const [toImprove, setImprove] = useState([]);
   const [kudos, setKudos] = useState([]);
+  const [update, setUpdate] = useState(false);
 let categoria = '';
-const getTodos = (categoria) => {
-  axios.get(`http://localhost:5000/posts?category=${categoria}`)
-    .then(res => {
-      console.log(res);
-      switch (categoria) {
-        case 'wentWell':
-          setWell(res.data)    
-          break;
-        case 'toImprove':
-          setImprove(res.data)
-          break;
-        case 'kudos':
-          setKudos(res.data)
-          break;   
-      }
-      
-    })
-    .catch(err => {
-      console.log(err);
-    })
-}
+
 
 useEffect(() => {
+  const getTodos = (categoria) => {
+    axios.get(`http://localhost:5000/posts?category=${categoria}`)
+      .then(res => {
+        console.log(res);
+        switch (categoria) {
+          case 'wentWell':
+            setWell(res.data)    
+            break;
+          case 'toImprove':
+            setImprove(res.data)
+            break;
+          case 'kudos':
+            setKudos(res.data)
+            break;   
+        }
+        
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
   getTodos('wentWell');
   getTodos('toImprove');
   getTodos('kudos');
-})
+  setUpdate(false);
+},[update])  */
   
 
   const handleEdit = (index, newValue) => {
@@ -79,26 +86,17 @@ useEffect(() => {
       />
       <SketchPicker color={color} onChange={handleColorChange} />
 
-      {
-      /* {wentWell.map((item, index) => (
+     {/*  { 
+      wentWell.length > 0 && wentWell.map((item, index) => (
         <div key={index} style={{ backgroundColor: item.color }}>
           <input
             type="text"
-            value={item.value}
+            value={item.title}
             onChange={(e) => handleEdit(e.key,index, e.target.value)}
           />
         </div>
-      ))} */}
-      {wentWell.length > 0 && wentWell.map((item, index) => (
-            <div key={index} style={{ backgroundColor: item.color }}>
-              <input
-                type="text"
-                value={item.title}
-                onChange={(e) => handleEdit(e.key,index, e.target.value)}
-              />
-            </div>
         
-      ))}
+      ))} */}
     </div>
   );
 };
@@ -109,6 +107,11 @@ const App = () => (
         <Column cat='wentWell' />
         <Column cat='toImprove' />
         <Column cat='kudos' />
+      </div>
+      <div className="row align-items-start">
+        <Post categoria='wentWell' />
+        <Post categoria='toImprove' />
+        <Post categoria='kudos' />
       </div>
     </div>
 );
