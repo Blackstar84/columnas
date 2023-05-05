@@ -107,18 +107,6 @@ const Column = (props) => {
           
         ))} 
         
-      
-       {  
-        wentWell.length > 0 && wentWell.map((item, index) => (
-          <div key={index} style={{ backgroundColor: item.color }}>
-            <input
-              type="text"
-              value={item.title}
-              onChange={(e) => handleEdit(e.key,index, e.target.value)}
-            />
-          </div>
-          
-        ))} 
         
       </div>
       </React.Fragment>
