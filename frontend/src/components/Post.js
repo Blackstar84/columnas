@@ -22,11 +22,8 @@ const Post = (props) =>{
         }
         getTodos(categoria);
         update = false;
-      },[update]) 
+      },[update]); 
 
-      update = true;
-
-      console.log(posts);
       return(
         <div className='col'>
             { 

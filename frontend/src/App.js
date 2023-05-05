@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SketchPicker } from 'react-color';
-import axios from 'axios';
-import Post from './components/Post';
+//import axios from 'axios';
+//import Post from './components/Post';
 import Column  from './components/Column';
 
 
@@ -15,11 +15,11 @@ const App = () => (
         <Column cat='toImprove' />
         <Column cat='kudos' />
       </div>
-      <div className="row align-items-start">
+     {/*  <div className="row align-items-start">
         <Post categoria='wentWell' update={true} />
         <Post categoria='toImprove' update={true} />
         <Post categoria='kudos' update={true} />
-      </div>
+      </div> */}
     </div>
 );
 

@@ -9,14 +9,7 @@ const Column = (props) => {
     const category = props.cat;
     const [color, setColor] = useState('#ffffff');
     const [items, setItems] = useState([]);
-    let [update, setUpdate] = useState(false);
-    let [posts, setPosts] = useState([]);
-    let [wentWell, setWell] = useState([]);
-    let [toImprove, setImprove] = useState([]);
-    let [kudos, setKudos] = useState([]);
-
-    
-    let categoria = props.cat;
+    const [update, setUpdate] = useState(false);
   
     const handleInputChange = (e) => {
       setTitle(e.target.value);
@@ -48,33 +41,6 @@ const Column = (props) => {
   let categoria = '';
   
     */
-  useEffect(() => {
-    const getTodos = (categoria) => {
-      axios.get(`http://localhost:5000/posts?category=${categoria}`)
-        .then(res => {
-            switch (categoria) {
-                case 'wentWell':
-                    setWell(res.data);
-                    break;
-                case 'toImprove':
-                    setImprove(res.data);
-                    break;    
-                case 'kudos':
-                    setKudos(res.data);
-                    break;
-                default:
-                    break;
-            }
-              console.log(res);              
-              setPosts(res.data);                      
-        }) 
-        .catch(err => {
-          console.log(err);
-        })
-    }
-    getTodos(categoria);
-    setUpdate(false);
-  },[update]);
     
   
     const handleEdit = (index, newValue) => {
@@ -84,7 +50,6 @@ const Column = (props) => {
     };
   
     return (
-        <React.Fragment>
       <div className='col'>
         <input
           type="text"
@@ -93,22 +58,8 @@ const Column = (props) => {
           onKeyDown={handleKeyDown}
         />
         <SketchPicker color={color} onChange={handleColorChange} />
-        
-        
-       {  
-        posts.length > 0 && posts.map((item, index) => (
-          <div key={index} style={{ backgroundColor: item.color }}>
-            <input
-              type="text"
-              value={item.title}
-              onChange={(e) => handleEdit(e.key,index, e.target.value)}
-            />
-          </div>
-          
-        ))} 
-        
-      
-       {  
+  
+       {/*  { 
         wentWell.length > 0 && wentWell.map((item, index) => (
           <div key={index} style={{ backgroundColor: item.color }}>
             <input
@@ -118,10 +69,8 @@ const Column = (props) => {
             />
           </div>
           
-        ))} 
-        
+        ))} */}
       </div>
-      </React.Fragment>
     );
   };
 
