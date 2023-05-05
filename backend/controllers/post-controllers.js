@@ -6,31 +6,7 @@ const HttpError = require('../models/http-error');
 const Post = require('../models/post');
 
 
-const getPosts = async (req, res, next) => {
-  
-  const {categoria} = req.query;
 
-  let place;
-  try {
-    place = await Post.find({ categoria });
-  } catch (err) {
-    const error = new HttpError(
-      'Something went wrong, could not find a place.',
-      500
-    );
-    return next(error);
-  }
-
-  if (!place) {
-    const error = new HttpError(
-      'Could not find a place for the provided id.',
-      404
-    );
-    return next(error);
-  }
-
-  res.json({ post: post.toObject({ getters: true }) }); // => { place } => { place: place }
-};
 
 
 
@@ -167,7 +143,6 @@ const deletePost = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted post.' });
 };
 
-exports.getPosts = getPosts;
 exports.createPost = createPost;
 exports.updatePost = updatePost;
 exports.deletePost = deletePost;
