@@ -5,11 +5,6 @@ const mongoose = require('mongoose');
 const HttpError = require('../models/http-error');
 const Post = require('../models/post');
 
-
-
-
-
-
 /* const getPosts = async (req, res, next) => {
  const category = req.params.category;
   const categories = category ? { category } : {}; 
