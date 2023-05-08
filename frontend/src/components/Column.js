@@ -71,17 +71,12 @@ const Column = (props) => {
 
     }; */
 
-    const [titleVal, setTitleVal] = useState(posts);
+    
 
-    const handleEdit = (id,e) => {
+    const handleEdit = (e,id) => {
       
-      let result = [...posts];
-      result = result.map((x) => {
-        if (x.id === id) x.title = setTitle(e.target.value);
-        return x;
-      });
-      setTitleVal(result);
-      
+      console.log(e.target.id);
+      [e.target.id]= e.target.value;
       
     };
 
@@ -114,7 +109,7 @@ const Column = (props) => {
               value={item.title}
               name='title'
               
-              onChange={(e) => this.handleEdit(e, item._id)}
+              onChange={(e) => handleEdit(e, item._id)}
             />
             <button onClick={(e) => deletePost(item._id)}>Delete</button>
             <input type='hidden' value={item._id} />
