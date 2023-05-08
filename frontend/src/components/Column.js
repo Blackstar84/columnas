@@ -6,14 +6,14 @@ import axios from 'axios';
 
 const Column = (props) => {
     const [title, setTitle] = useState('');
+    const [titleValue, setInputValue] = useState('');
     const category = props.cat;
     const [color, setColor] = useState('#ffffff');
-    const [items, setItems] = useState([]);
+   
     let [update, setUpdate] = useState(false);
     let [posts, setPosts] = useState([]);
-    let [wentWell, setWell] = useState([]);
-    let [toImprove, setImprove] = useState([]);
-    let [kudos, setKudos] = useState([]);
+
+    
 
     
     let categoria = props.cat;
@@ -30,9 +30,6 @@ const Column = (props) => {
   
     const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
-        console.log(title, category, color);
-        setItems([...items, { value: title, color }]);
-        
         axios.post('http://localhost:5000/createPost', {
           title, category, color
       }).then(() => alert('Datos guardados!')).catch((error) => console.log(error));
@@ -51,22 +48,8 @@ const Column = (props) => {
   useEffect(() => {
     const getTodos = (categoria) => {
       axios.get(`http://localhost:5000/posts?category=${categoria}`)
-        .then(res => {
-            switch (categoria) {
-                case 'wentWell':
-                    setWell(res.data);
-                    break;
-                case 'toImprove':
-                    setImprove(res.data);
-                    break;    
-                case 'kudos':
-                    setKudos(res.data);
-                    break;
-                default:
-                    break;
-            }
-              console.log(res);              
-              setPosts(res.data);                      
+        .then(res => {             
+              setPosts(res.data);                     
         }) 
         .catch(err => {
           console.log(err);
@@ -77,16 +60,42 @@ const Column = (props) => {
   },[update]);
     
   
-    const handleEdit = (index, newValue) => {
-      const newItems = [...items];
-      newItems[index].value = newValue;
-      setItems(newItems);
+    /* const handleEdit = (key,index, e) => {
+      e.preventDefault();
+      console.log(key);
+      let newValue = [];
+      newValue[key] = e.target.value;
+      setTitle(newValue);
+
+
+
+    }; */
+
+    const [titleVal, setTitleVal] = useState(posts);
+
+    const handleEdit = (id,e) => {
+      
+      let result = [...posts];
+      result = result.map((x) => {
+        if (x.id === id) x.title = setTitle(e.target.value);
+        return x;
+      });
+      setTitleVal(result);
+      
+      
     };
-  
+
+    const deletePost = (id) =>{
+        axios.delete(`http://localhost:5000/${id}`)
+        .then(() => alert('Datos Borrados!')).catch((error) => console.log(error));
+        setUpdate(true);
+    }
+    
+    
     return (
         <React.Fragment>
       <div className='col'>
-        <input
+        <input 
           type="text"
           value={title}
           onChange={handleInputChange}
@@ -97,12 +106,19 @@ const Column = (props) => {
         
        {  
         posts.length > 0 && posts.map((item, index) => (
+          
           <div key={index} style={{ backgroundColor: item.color }}>
-            <input
+            
+            <input id={item._id}
               type="text"
               value={item.title}
-              onChange={(e) => handleEdit(e.key,index, e.target.value)}
+              name='title'
+              
+              onChange={(e) => this.handleEdit(e, item._id)}
             />
+            <button onClick={(e) => deletePost(item._id)}>Delete</button>
+            <input type='hidden' value={item._id} />
+            
           </div>
           
         ))} 
@@ -112,5 +128,7 @@ const Column = (props) => {
       </React.Fragment>
     );
   };
+
+  
 
   export default Column;

@@ -11,10 +11,10 @@ router.get('/posts', async (req, res) => {
   let users;
   try {
     users = await Post.find({ category });
-    
+    console.log(users);
     res.json(users);
   } catch (error) {
-    res.status(500).json({ message: 'Error al obtener usuarios' });
+    res.json({ users: users.toObject({ getters: true }) });
   }
 });
 

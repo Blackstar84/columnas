@@ -99,12 +99,12 @@ const updatePost = async (req, res, next) => {
   res.status(200).json({ post: post.toObject({ getters: true }) });
 };
 
-const deletePost = async (req, res, next) => {
+  const deletePost = async (req, res, next) => {
   const postId = req.params.pid;
 
   let post;
   try {
-    post = await Post.findById(postId).populate('title');
+    post = await Post.findById(postId);
   } catch (err) {
     const error = new HttpError(
       'Something went wrong, could not delete place.',
@@ -124,8 +124,6 @@ const deletePost = async (req, res, next) => {
 
   try {
     await post.deleteOne();
-    await post.creator.posts.pull(post);
-    await post.creator.save();
   } catch (err) {
     const error = new HttpError(
       'Something went wrong, could not delete post.',
@@ -137,6 +135,8 @@ const deletePost = async (req, res, next) => {
 
   res.status(200).json({ message: 'Deleted post.' });
 };
+
+
 
 exports.createPost = createPost;
 exports.updatePost = updatePost;
