@@ -49,7 +49,8 @@ const Column = (props) => {
     const getTodos = (categoria) => {
       axios.get(`http://localhost:5000/posts?category=${categoria}`)
         .then(res => {             
-              setPosts(res.data);                     
+              setPosts(res.data);                
+                                
         }) 
         .catch(err => {
           console.log(err);
