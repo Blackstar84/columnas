@@ -13,7 +13,7 @@ const Column = (props) => {
     let [update, setUpdate] = useState(false);
     let [posts, setPosts] = useState([]);
 
-    
+    const [postData, setPostData] = useState([]);
 
     
     let categoria = props.cat;
@@ -49,7 +49,7 @@ const Column = (props) => {
     const getTodos = (categoria) => {
       axios.get(`http://localhost:5000/posts?category=${categoria}`)
         .then(res => {             
-              setPosts(res.data);                
+              setPosts(res.data);            
                                 
         }) 
         .catch(err => {
@@ -72,14 +72,44 @@ const Column = (props) => {
 
     }; */
 
-    
+    /*
+    const handleEdit = (index, newValue) => {
+      const newItems = [...items];
+      newItems[index].value = newValue;
+      setItems(newItems);
+    };
 
-    const handleEdit = (e,id) => {
+    */
+
+    
+     
+    const handleEdit = (index, e) => {
+
+      const newItems = [...posts];
+      newItems[index].value = e.target.value;
+      setPosts(newItems);
+      /* console.log(index);
+      const updatedPosts = [...posts];
+      updatedPosts[index][e.target.id] = e.target.value;
+      setUpdate(true);
+      setPosts(updatedPosts); */
       
-      console.log(e.target.id);
-      [e.target.id]= e.target.value;
+      
       
     };
+
+    const updatePost = (index) => {
+      // Perform a PUT request to update the post on the server
+      console.log('hola');
+      console.log(posts[index].id, '-', posts[index])
+      axios.patch(`http://localhost:5000//updatePost/\${posts[index].id}`, posts[index])
+        .then((response) => {
+          console.log("Post updated:", response.data);
+        });
+    };
+
+    
+
 
     const deletePost = (id) =>{
         axios.delete(`http://localhost:5000/${id}`)
@@ -101,6 +131,7 @@ const Column = (props) => {
         
         
        {  
+       
         posts.length > 0 && posts.map((item, index) => (
           
           <div key={index} style={{ backgroundColor: item.color }}>
@@ -108,9 +139,9 @@ const Column = (props) => {
             <input id={item._id}
               type="text"
               value={item.title}
-              name='title'
+              name= 'title'
               
-              onChange={(e) => handleEdit(e, item._id)}
+              onChange={(e) => handleEdit(index, e)}
             />
             <button onClick={(e) => deletePost(item._id)}>Delete</button>
             <input type='hidden' value={item._id} />
